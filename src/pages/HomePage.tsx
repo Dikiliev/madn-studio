@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
 
         <div className="absolute bottom-0 left-0 w-full overflow-hidden border-t border-b border-slate-200 dark:border-white/5 bg-white/40 dark:bg-black/40 backdrop-blur-md py-4 z-20 transition-colors duration-500">
           <div className="flex animate-marquee whitespace-nowrap">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(12)].map((_, i) => (
               <span key={i} className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500 mx-12 flex items-center font-mono transition-colors duration-500">
                 <Rocket className="w-4 h-4 text-madn-accent mr-4" />
                 Websites
@@ -73,6 +73,8 @@ const HomePage: React.FC = () => {
                 Mobile Apps
                 <span className="mx-6 text-slate-300 dark:text-zinc-800">|</span>
                 Telegram Bots
+                <span className="mx-6 text-slate-300 dark:text-zinc-800">|</span>
+                Web3
                 <span className="mx-6 text-slate-300 dark:text-zinc-800">|</span>
                 CRM Systems
                 <span className="mx-6 text-slate-300 dark:text-zinc-800">|</span>

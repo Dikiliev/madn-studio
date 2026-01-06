@@ -4,7 +4,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: '1',
     name: 'Дикилиев Магомед',
-    role: 'Фулстек разработчик',
+    role: 'Фулстек и Web3 разработчик',
     image: '/team/magomed.jpg', // TODO: Добавить фото Магомеда в public/team/
   },
   {
