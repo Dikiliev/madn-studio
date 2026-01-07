@@ -68,15 +68,27 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </button>
               </li>
               <li>
-                <Link to="/careers" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
+                <Link to="/work" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
                   <span className="w-1.5 h-1.5 rounded-full bg-madn-accent opacity-0 -ml-4 mr-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
-                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Карьера</span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Проекты</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/team" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-madn-accent opacity-0 -ml-4 mr-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Команда</span>
                 </Link>
               </li>
               <li>
                 <button onClick={() => onNavigate('home', 'services')} className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
                   <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Услуги</span>
                 </button>
+              </li>
+              <li>
+                <Link to="/careers" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-madn-accent opacity-0 -ml-4 mr-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300"></span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Карьера</span>
+                </Link>
               </li>
               <li>
                 <Link to="/contact" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">

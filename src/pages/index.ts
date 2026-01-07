@@ -5,4 +5,5 @@ export { default as ProjectDetailsPage } from './ProjectDetailsPage';
 export { default as CareersPage } from './CareersPage';
 export { default as ContactPage } from './ContactPage';
 export { default as LegalPage } from './LegalPage';
+export { default as NotFoundPage } from './NotFoundPage';
 
