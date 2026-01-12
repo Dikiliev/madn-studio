@@ -6,6 +6,11 @@ export interface Service {
   icon: string;
 }
 
+export interface ProjectImage {
+  url: string;
+  description?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -20,6 +25,7 @@ export interface Project {
   client?: string;
   challenge?: string;
   solution?: string;
+  images?: ProjectImage[]; // Галерея изображений с описаниями
 }
 
 export interface ChatMessage {

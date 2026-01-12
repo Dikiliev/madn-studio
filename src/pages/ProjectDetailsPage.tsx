@@ -1,18 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PROJECTS } from '@config';
-import { ArrowLeft, ExternalLink, Code, Layers, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Code, Layers, CheckCircle, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Button from '@ui/Button';
+import { ProjectImage } from '@types';
 
 const ProjectDetailsPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   
   const project = PROJECTS.find(p => p.id === projectId);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [projectId]);
+
+  // Генерируем массив изображений: если есть images, используем их, иначе создаем из imageUrl
+  const getProjectImages = (): ProjectImage[] => {
+    if (project?.images && project.images.length > 0) {
+      return project.images;
+    }
+    // Если нет массива images, создаем один элемент из imageUrl с описанием
+    if (project?.imageUrl) {
+      return [{
+        url: project.imageUrl,
+        description: `Главный экран проекта ${project.title}. ${project.description || 'Современный интерфейс с продуманным дизайном и удобной навигацией.'}`
+      }];
+    }
+    return [];
+  };
+
+  const projectImages = getProjectImages();
+  const hasMultipleImages = projectImages.length > 1;
 
   if (!project) {
     return (
@@ -83,10 +103,98 @@ const ProjectDetailsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Image */}
-        <div className="aspect-video w-full rounded-2xl overflow-hidden mb-20 border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-zinc-900 shadow-lg dark:shadow-none">
-           <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
+        {/* Image Gallery */}
+        <div className="mb-20">
+          {hasMultipleImages ? (
+            // Галерея с несколькими изображениями
+            <div className="space-y-12">
+              {projectImages.map((image, index) => (
+                <div key={index} className="group">
+                  <div 
+                    className="aspect-video w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-zinc-900 shadow-lg dark:shadow-none cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]"
+                    onClick={() => setSelectedImageIndex(index)}
+                  >
+                    <img 
+                      src={image.url} 
+                      alt={`${project.title} - Изображение ${index + 1}`} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                    />
+                  </div>
+                  {image.description && (
+                    <p className="mt-4 text-slate-600 dark:text-gray-400 text-lg leading-relaxed max-w-4xl">
+                      {image.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            // Одно изображение
+            <div className="aspect-video w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-zinc-900 shadow-lg dark:shadow-none">
+              <img 
+                src={projectImages[0]?.url || project.imageUrl} 
+                alt={project.title} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+          )}
         </div>
+
+        {/* Lightbox для просмотра изображений */}
+        {selectedImageIndex !== null && (
+          <div 
+            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedImageIndex(null)}
+          >
+            <button
+              onClick={() => setSelectedImageIndex(null)}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors p-2"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            
+            {hasMultipleImages && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex((selectedImageIndex - 1 + projectImages.length) % projectImages.length);
+                  }}
+                  className="absolute left-4 text-white hover:text-gray-300 transition-colors p-2 bg-white/10 rounded-full backdrop-blur-sm"
+                >
+                  <ChevronLeft className="w-8 h-8" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex((selectedImageIndex + 1) % projectImages.length);
+                  }}
+                  className="absolute right-4 text-white hover:text-gray-300 transition-colors p-2 bg-white/10 rounded-full backdrop-blur-sm"
+                >
+                  <ChevronRight className="w-8 h-8" />
+                </button>
+              </>
+            )}
+
+            <div className="max-w-7xl w-full h-full flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              <img 
+                src={projectImages[selectedImageIndex].url} 
+                alt={`${project.title} - Изображение ${selectedImageIndex + 1}`}
+                className="max-w-full max-h-[85vh] object-contain rounded-lg"
+              />
+              {projectImages[selectedImageIndex].description && (
+                <div className="mt-6 max-w-4xl text-center">
+                  <p className="text-white text-lg leading-relaxed">
+                    {projectImages[selectedImageIndex].description}
+                  </p>
+                  <p className="text-gray-400 text-sm mt-2">
+                    {selectedImageIndex + 1} / {projectImages.length}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Challenge & Solution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">

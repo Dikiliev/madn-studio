@@ -1,16 +1,22 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Initialize Gemini client using the environment variable as per guidelines
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize Gemini client only if API key is available
+const ai = process.env.API_KEY ? new GoogleGenAI({ apiKey: process.env.API_KEY }) : null;
 
 /**
  * Sends a message to the Gemini model and returns the response.
  * Uses 'gemini-3-flash-preview' for fast, conversational responses.
+ * Returns a message if API key is not configured.
  */
 export const sendChatMessage = async (
   message: string,
   history: { role: 'user' | 'model'; parts: { text: string }[] }[]
 ): Promise<string> => {
+  // Check if API key is configured
+  if (!ai) {
+    return "Сервис временно недоступен. Пожалуйста, свяжитесь с нами через форму обратной связи.";
+  }
+
   try {
     const chat = ai.chats.create({
       model: 'gemini-3-flash-preview',
