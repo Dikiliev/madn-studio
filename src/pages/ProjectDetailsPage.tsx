@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PROJECTS } from '@config';
-import { ArrowLeft, ExternalLink, Code, Layers, CheckCircle, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Code, Layers, CheckCircle, ChevronLeft, ChevronRight, X, Maximize2 } from 'lucide-react';
 import Button from '@ui/Button';
 import { ProjectImage } from '@types';
 
@@ -9,12 +10,12 @@ const ProjectDetailsPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [isLightboxVisible, setIsLightboxVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  const [isSliding, setIsSliding] = useState(false);
   
   const project = PROJECTS.find(p => p.id === projectId);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [projectId]);
 
   // Генерируем массив изображений: если есть images, используем их, иначе создаем из imageUrl
   const getProjectImages = (): ProjectImage[] => {
@@ -33,6 +34,76 @@ const ProjectDetailsPage: React.FC = () => {
 
   const projectImages = getProjectImages();
   const hasMultipleImages = projectImages.length > 1;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [projectId]);
+
+  // Блокировка скролла при открытом lightbox
+  useEffect(() => {
+    if (selectedImageIndex !== null) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [selectedImageIndex]);
+
+  const handleOpenLightbox = (index: number) => {
+    setSelectedImageIndex(index);
+    setIsClosing(false);
+    // Небольшая задержка для запуска анимации открытия
+    setTimeout(() => setIsLightboxVisible(true), 10);
+  };
+
+  const handleCloseLightbox = () => {
+    setIsClosing(true);
+    setIsLightboxVisible(false);
+    setTimeout(() => {
+      setSelectedImageIndex(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
+  const handleNextImage = () => {
+    if (!hasMultipleImages || selectedImageIndex === null || isSliding) return;
+    setSlideDirection('left');
+    setIsSliding(true);
+    setTimeout(() => {
+      setSelectedImageIndex((selectedImageIndex + 1) % projectImages.length);
+      setSlideDirection(null);
+      setTimeout(() => setIsSliding(false), 50);
+    }, 200);
+  };
+
+  const handlePreviousImage = () => {
+    if (!hasMultipleImages || selectedImageIndex === null || isSliding) return;
+    setSlideDirection('right');
+    setIsSliding(true);
+    setTimeout(() => {
+      setSelectedImageIndex((selectedImageIndex - 1 + projectImages.length) % projectImages.length);
+      setSlideDirection(null);
+      setTimeout(() => setIsSliding(false), 50);
+    }, 200);
+  };
+
+  // Обработка клавиатуры для навигации
+  useEffect(() => {
+    if (selectedImageIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseLightbox();
+      } else if (e.key === 'ArrowLeft' && hasMultipleImages) {
+        handlePreviousImage();
+      } else if (e.key === 'ArrowRight' && hasMultipleImages) {
+        handleNextImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedImageIndex, hasMultipleImages, projectImages.length]);
 
   if (!project) {
     return (
@@ -105,20 +176,35 @@ const ProjectDetailsPage: React.FC = () => {
 
         {/* Image Gallery */}
         <div className="mb-20">
+          {/* Подсказка о возможности открытия изображений */}
+          {hasMultipleImages && (
+            <div className="mb-6 flex items-center gap-3 text-sm text-slate-500 dark:text-gray-400">
+              <Maximize2 className="w-4 h-4" />
+              <span>Нажмите на изображение для полноэкранного просмотра</span>
+            </div>
+          )}
+          
           {hasMultipleImages ? (
             // Галерея с несколькими изображениями
             <div className="space-y-12">
               {projectImages.map((image, index) => (
-                <div key={index} className="group">
+                <div key={index} className="group relative">
                   <div 
-                    className="aspect-video w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-zinc-900 shadow-lg dark:shadow-none cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]"
-                    onClick={() => setSelectedImageIndex(index)}
+                    className="w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-200 dark:bg-zinc-900 shadow-lg dark:shadow-none cursor-pointer transition-all duration-300 hover:shadow-2xl md:hover:scale-[1.01] aspect-[16/10] md:aspect-[16/9] relative"
+                    onClick={() => handleOpenLightbox(index)}
                   >
                     <img 
                       src={image.url} 
                       alt={`${project.title} - Изображение ${index + 1}`} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                      className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105" 
+                      loading="lazy"
                     />
+                    {/* Overlay hint */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="bg-white/10 backdrop-blur-md rounded-full p-3 border border-white/20">
+                        <Maximize2 className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
                   </div>
                   {image.description && (
                     <p className="mt-4 text-slate-600 dark:text-gray-400 text-lg leading-relaxed max-w-4xl">
@@ -130,27 +216,77 @@ const ProjectDetailsPage: React.FC = () => {
             </div>
           ) : (
             // Одно изображение
-            <div className="aspect-video w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-zinc-900 shadow-lg dark:shadow-none">
-              <img 
-                src={projectImages[0]?.url || project.imageUrl} 
-                alt={project.title} 
-                className="w-full h-full object-cover" 
-              />
+            <div className="relative group">
+              <div className="w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-200 dark:bg-zinc-900 shadow-lg dark:shadow-none cursor-pointer transition-all duration-300 hover:shadow-2xl md:hover:scale-[1.01] aspect-[16/10] md:aspect-[16/9]"
+                   onClick={() => handleOpenLightbox(0)}>
+                <img 
+                  src={projectImages[0]?.url || project.imageUrl} 
+                  alt={project.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105" 
+                  loading="lazy"
+                />
+                {/* Overlay hint */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <div className="bg-white/10 backdrop-blur-md rounded-full p-3 border border-white/20">
+                    <Maximize2 className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2 flex items-center gap-3 text-sm text-slate-500 dark:text-gray-400">
+                <Maximize2 className="w-4 h-4" />
+                <span>Нажмите для полноэкранного просмотра</span>
+              </div>
             </div>
           )}
         </div>
 
-        {/* Lightbox для просмотра изображений */}
-        {selectedImageIndex !== null && (
+        {/* Lightbox - рендерится через Portal в body */}
+        {selectedImageIndex !== null && createPortal(
           <div 
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedImageIndex(null)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: isLightboxVisible && !isClosing ? 'rgba(0, 0, 0, 0.95)' : 'rgba(0, 0, 0, 0)',
+              zIndex: 99999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px',
+              transition: 'background-color 0.3s ease-out',
+              backdropFilter: isLightboxVisible && !isClosing ? 'blur(8px)' : 'blur(0px)'
+            }}
+            onClick={handleCloseLightbox}
           >
+            {/* Кнопка закрытия */}
             <button
-              onClick={() => setSelectedImageIndex(null)}
-              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors p-2"
+              onClick={handleCloseLightbox}
+              style={{
+                position: 'fixed',
+                top: '16px',
+                right: '16px',
+                color: 'white',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '50%',
+                width: '48px',
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                zIndex: 100000,
+                opacity: isLightboxVisible && !isClosing ? 1 : 0,
+                transform: isLightboxVisible && !isClosing ? 'scale(1) rotate(0deg)' : 'scale(0.5) rotate(-90deg)',
+                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
             >
-              <X className="w-8 h-8" />
+              <X style={{ width: '24px', height: '24px' }} />
             </button>
             
             {hasMultipleImages && (
@@ -158,42 +294,144 @@ const ProjectDetailsPage: React.FC = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedImageIndex((selectedImageIndex - 1 + projectImages.length) % projectImages.length);
+                    handlePreviousImage();
                   }}
-                  className="absolute left-4 text-white hover:text-gray-300 transition-colors p-2 bg-white/10 rounded-full backdrop-blur-sm"
+                  style={{
+                    position: 'fixed',
+                    left: '16px',
+                    top: '50%',
+                    transform: `translateY(-50%) ${isLightboxVisible && !isClosing ? 'translateX(0)' : 'translateX(-20px)'}`,
+                    color: 'white',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '50%',
+                    width: '48px',
+                    height: '48px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    zIndex: 100000,
+                    opacity: isLightboxVisible && !isClosing ? 1 : 0,
+                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s'
+                  }}
                 >
-                  <ChevronLeft className="w-8 h-8" />
+                  <ChevronLeft style={{ width: '32px', height: '32px' }} />
                 </button>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedImageIndex((selectedImageIndex + 1) % projectImages.length);
+                    handleNextImage();
                   }}
-                  className="absolute right-4 text-white hover:text-gray-300 transition-colors p-2 bg-white/10 rounded-full backdrop-blur-sm"
+                  style={{
+                    position: 'fixed',
+                    right: '16px',
+                    top: '50%',
+                    transform: `translateY(-50%) ${isLightboxVisible && !isClosing ? 'translateX(0)' : 'translateX(20px)'}`,
+                    color: 'white',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '50%',
+                    width: '48px',
+                    height: '48px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    zIndex: 100000,
+                    opacity: isLightboxVisible && !isClosing ? 1 : 0,
+                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s'
+                  }}
                 >
-                  <ChevronRight className="w-8 h-8" />
+                  <ChevronRight style={{ width: '32px', height: '32px' }} />
                 </button>
               </>
             )}
 
-            <div className="max-w-7xl w-full h-full flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            {/* Изображение */}
+            <div 
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                opacity: isLightboxVisible && !isClosing ? 1 : 0,
+                transform: isLightboxVisible && !isClosing 
+                  ? slideDirection === 'left' 
+                    ? 'translateX(-30px) scale(0.95)' 
+                    : slideDirection === 'right' 
+                    ? 'translateX(30px) scale(0.95)' 
+                    : 'translateX(0) scale(1)'
+                  : 'scale(0.9)',
+                transition: slideDirection 
+                  ? 'all 0.2s ease-out' 
+                  : 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
               <img 
                 src={projectImages[selectedImageIndex].url} 
                 alt={`${project.title} - Изображение ${selectedImageIndex + 1}`}
-                className="max-w-full max-h-[85vh] object-contain rounded-lg"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '80vh',
+                  objectFit: 'contain',
+                  borderRadius: '12px',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                  opacity: slideDirection ? 0.7 : 1,
+                  transition: 'opacity 0.2s ease-out'
+                }}
               />
               {projectImages[selectedImageIndex].description && (
-                <div className="mt-6 max-w-4xl text-center">
-                  <p className="text-white text-lg leading-relaxed">
+                <div style={{ 
+                  marginTop: '24px', 
+                  maxWidth: '800px', 
+                  textAlign: 'center', 
+                  color: 'white', 
+                  padding: '0 16px',
+                  opacity: isLightboxVisible && !isClosing && !slideDirection ? 1 : 0,
+                  transform: isLightboxVisible && !isClosing && !slideDirection ? 'translateY(0)' : 'translateY(10px)',
+                  transition: 'all 0.3s ease-out 0.15s'
+                }}>
+                  <p style={{ fontSize: '18px', lineHeight: '28px' }}>
                     {projectImages[selectedImageIndex].description}
                   </p>
-                  <p className="text-gray-400 text-sm mt-2">
-                    {selectedImageIndex + 1} / {projectImages.length}
-                  </p>
+                  {hasMultipleImages && (
+                    <p style={{ color: '#9ca3af', fontSize: '14px', marginTop: '12px', fontFamily: 'monospace' }}>
+                      {selectedImageIndex + 1} / {projectImages.length}
+                    </p>
+                  )}
                 </div>
               )}
             </div>
-          </div>
+
+            {/* Подсказка о навигации */}
+            {hasMultipleImages && (
+              <div style={{
+                position: 'fixed',
+                bottom: '16px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                color: '#9ca3af',
+                fontSize: '12px',
+                fontFamily: 'monospace',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                opacity: isLightboxVisible && !isClosing ? 0.7 : 0,
+                transition: 'opacity 0.3s ease-out 0.2s'
+              }}>
+                <span>← → навигация</span>
+                <span style={{ color: '#4b5563' }}>•</span>
+                <span>ESC закрыть</span>
+              </div>
+            )}
+          </div>,
+          document.body
         )}
 
         {/* Challenge & Solution */}

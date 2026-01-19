@@ -142,7 +142,7 @@ const HomePage: React.FC = () => {
                     <img 
                       src={project.imageUrl} 
                       alt={project.title} 
-                      className="w-full h-full object-cover opacity-90 dark:opacity-80 group-hover:opacity-100 transition-all duration-700 grayscale group-hover:grayscale-0"
+                      className="w-full h-full object-cover opacity-90 dark:opacity-80 group-hover:opacity-100 transition-all duration-700 md:grayscale md:group-hover:grayscale-0"
                     />
                     <div className="absolute inset-0 bg-black/10 dark:bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
                   </div>
@@ -215,7 +215,7 @@ const HomePage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {TEAM_MEMBERS.slice(0, 4).map((member) => (
                 <div key={member.id} className="group relative cursor-pointer" onClick={() => navigate('/team')}>
-                    <div className="aspect-[3/4] overflow-hidden rounded-xl bg-slate-200 dark:bg-zinc-900 mb-6 grayscale group-hover:grayscale-0 transition-all duration-700 ease-out">
+                    <div className="aspect-[3/4] overflow-hidden rounded-xl bg-slate-200 dark:bg-zinc-900 mb-6 md:grayscale md:group-hover:grayscale-0 transition-all duration-700 ease-out">
                       <img 
                         src={member.image} 
                         alt={member.name} 

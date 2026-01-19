@@ -39,9 +39,9 @@ const TeamPage: React.FC = () => {
                  <img 
                    src={member.image} 
                    alt={member.name} 
-                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 md:grayscale md:group-hover:grayscale-0"
                  />
-                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                 <div className="absolute inset-0 bg-black/60 opacity-0 md:group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                     {/* Social Icons */}
                     <a 
                       href={`https://t.me/${member.social || ''}`} 

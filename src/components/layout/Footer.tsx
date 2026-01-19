@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Twitter, Linkedin, Github } from 'lucide-react';
+import { Instagram, Twitter, Linkedin, Github, Send, Palette } from 'lucide-react';
+import { COMPANY_INFO, SOCIAL_LINKS } from '@config';
 
 interface FooterProps {
   onNavigate: (page: any, sectionId?: string) => void;
@@ -8,12 +9,21 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const navigate = useNavigate();
-  const socialLinks = [
-    { icon: Instagram, href: '#' },
-    { icon: Twitter, href: '#' },
-    { icon: Linkedin, href: '#' },
-    { icon: Github, href: '#' }
-  ];
+  
+  // Маппинг иконок
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+    Instagram,
+    Twitter,
+    Linkedin,
+    Github,
+    Send,
+    Palette
+  };
+
+  // Фильтруем только основные социальные сети для футера
+  const footerSocialLinks = SOCIAL_LINKS.filter(social => 
+    ['Instagram', 'Twitter', 'Linkedin', 'Github'].includes(social.name)
+  );
 
   return (
     <footer className="bg-[#020202] border-t border-white/5 pt-32 pb-10 relative overflow-hidden">
@@ -37,21 +47,25 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 MAD<span className="text-madn-accent">N</span>
               </h2>
               <p className="text-gray-500 max-w-sm mb-8 text-lg font-light leading-relaxed">
-                Студия цифрового креатива. <br/>
-                Мы объединяем эстетику и технологии, чтобы создавать продукты, которые запоминают.
+                {COMPANY_INFO.description}
               </p>
             </div>
             
             <div className="flex gap-4">
-              {socialLinks.map((social, idx) => (
-                <a 
-                  key={idx} 
-                  href={social.href} 
-                  className="w-12 h-12 rounded-full bg-zinc-900/50 border border-white/5 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black hover:scale-110 hover:border-white transition-all duration-300 group"
-                >
-                  <social.icon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
-                </a>
-              ))}
+              {footerSocialLinks.map((social, idx) => {
+                const IconComponent = iconMap[social.icon];
+                return (
+                  <a 
+                    key={idx} 
+                    href={social.href} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-zinc-900/50 border border-white/5 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black hover:scale-110 hover:border-white transition-all duration-300 group"
+                  >
+                    {IconComponent && <IconComponent className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />}
+                  </a>
+                );
+              })}
             </div>
           </div>
           
@@ -122,7 +136,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 font-mono">
-          <p>&copy; {new Date().getFullYear()} MadN Studio. Moscow / Global.</p>
+          <p>{COMPANY_INFO.copyright}</p>
           <div className="flex items-center gap-6 mt-4 md:mt-0">
              <Link to="/privacy" className="hover:text-zinc-400 cursor-pointer transition-colors">Privacy</Link>
              <Link to="/terms" className="hover:text-zinc-400 cursor-pointer transition-colors">Terms</Link>
