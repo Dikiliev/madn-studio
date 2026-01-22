@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight, Mail, Phone, Send, Instagram, Linkedin, Palette } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Mail, Send } from 'lucide-react';
 import Button from '@ui/Button';
 import { CONTACT_INFO, SOCIAL_LINKS } from '@config';
 
@@ -58,23 +58,23 @@ const ContactPage: React.FC = () => {
                    <div className="text-2xl font-bold font-display text-slate-900 dark:text-white">{CONTACT_INFO.email}</div>
                 </a>
 
-                <a href={`tel:${CONTACT_INFO.phone.replace(/\s/g, '')}`} className="group block p-6 rounded-2xl bg-white border border-slate-200 dark:bg-white/5 dark:border-white/10 hover:border-madn-accent/50 dark:hover:bg-white/10 transition-all duration-300 shadow-sm dark:shadow-none">
-                   <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-slate-100 dark:bg-black rounded-lg text-madn-accent"><Phone className="w-6 h-6"/></div>
-                      <ArrowUpRight className="w-5 h-5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
-                   </div>
-                   <div className="text-sm font-mono text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-1">Phone / Telegram</div>
-                   <div className="text-2xl font-bold font-display text-slate-900 dark:text-white">{CONTACT_INFO.phone}</div>
-                </a>
+                {CONTACT_INFO.telegram && (
+                  <a href={CONTACT_INFO.telegram} target="_blank" rel="noopener noreferrer" className="group block p-6 rounded-2xl bg-white border border-slate-200 dark:bg-white/5 dark:border-white/10 hover:border-madn-accent/50 dark:hover:bg-white/10 transition-all duration-300 shadow-sm dark:shadow-none">
+                     <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-slate-100 dark:bg-black rounded-lg text-madn-accent"><Send className="w-6 h-6"/></div>
+                        <ArrowUpRight className="w-5 h-5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
+                     </div>
+                     <div className="text-sm font-mono text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-1">Telegram</div>
+                     <div className="text-2xl font-bold font-display text-slate-900 dark:text-white">@mdikiy</div>
+                  </a>
+                )}
               </div>
 
               {/* Socials */}
               <div>
                 <h3 className="text-slate-900 dark:text-white font-bold mb-6 font-display uppercase tracking-wide text-sm">Мы в соцсетях</h3>
                 <div className="flex flex-wrap gap-4">
-                   {SOCIAL_LINKS.filter(social => 
-                     ['Instagram', 'Telegram', 'Behance', 'LinkedIn'].includes(social.name)
-                   ).map((social) => (
+                   {SOCIAL_LINKS.map((social) => (
                       <a 
                         key={social.name}
                         href={social.href}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Twitter, Linkedin, Github, Send, Palette } from 'lucide-react';
+import { Instagram, Github, Send } from 'lucide-react';
 import { COMPANY_INFO, SOCIAL_LINKS } from '@config';
 
 interface FooterProps {
@@ -13,17 +13,12 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   // Маппинг иконок
   const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Instagram,
-    Twitter,
-    Linkedin,
     Github,
-    Send,
-    Palette
+    Send
   };
 
-  // Фильтруем только основные социальные сети для футера
-  const footerSocialLinks = SOCIAL_LINKS.filter(social => 
-    ['Instagram', 'Twitter', 'Linkedin', 'Github'].includes(social.name)
-  );
+  // Показываем все доступные социальные сети
+  const footerSocialLinks = SOCIAL_LINKS;
 
   return (
     <footer className="bg-[#020202] border-t border-white/5 pt-32 pb-10 relative overflow-hidden">

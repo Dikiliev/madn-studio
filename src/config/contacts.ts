@@ -1,6 +1,5 @@
 export interface ContactInfo {
   email: string;
-  phone: string;
   telegram?: string;
   location: string;
 }
@@ -19,9 +18,8 @@ export interface CompanyInfo {
 }
 
 export const CONTACT_INFO: ContactInfo = {
-  email: 'hello@madn.studio',
-  phone: '+7 (999) 123-45-67',
-  telegram: '+7 (999) 123-45-67',
+  email: 'madn-studio@ya.ru',
+  telegram: 'http://t.me/mdikiy',
   location: 'Moscow / Global'
 };
 
@@ -32,29 +30,14 @@ export const SOCIAL_LINKS: SocialLink[] = [
     href: '#'
   },
   {
-    name: 'Twitter',
-    icon: 'Twitter',
-    href: '#'
-  },
-  {
-    name: 'LinkedIn',
-    icon: 'Linkedin',
-    href: '#'
-  },
-  {
     name: 'Github',
-    icon: 'Github',
-    href: '#'
+    icon: 'Github', 
+    href: 'https://github.com/madn-studio'
   },
   {
     name: 'Telegram',
     icon: 'Send',
-    href: '#'
-  },
-  {
-    name: 'Behance',
-    icon: 'Palette',
-    href: '#'
+    href: 'http://t.me/mdikiy'
   }
 ];
 
