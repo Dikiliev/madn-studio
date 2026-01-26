@@ -31,7 +31,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     name: 'Github',
-    icon: 'Github', 
+    icon: 'Github',                       
     href: 'https://github.com/madn-studio'
   },
   {
@@ -44,7 +44,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
 export const COMPANY_INFO: CompanyInfo = {
   name: 'MADN',
   description: 'Студия цифрового креатива. Мы объединяем эстетику и технологии, чтобы создавать продукты, которые запоминают.',
-  location: 'Moscow / Global',
+  location: 'Grozny / Global',
   copyright: `© ${new Date().getFullYear()} MadN Studio. Moscow / Global.`
 };
 

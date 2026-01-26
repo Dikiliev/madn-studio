@@ -27,21 +27,28 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: '5',
+    name: 'Магомед Абдулаев',
+    role: 'Designer',
+    image: '/team/magomed_abdulaev.png',
+  },
+  {
+    id: '6',
     name: 'Ахмад Алимхаджиев',
     role: 'Analyst',
     image: '/team/ahmad.jpg',
   },
   {
-    id: '6',
+    id: '7',
     name: 'Джамбулат Солтамурадов',
     role: 'Python, FastAPI',
     image: '/team/djambulat.jpeg',
   },
   {
-    id: '7',
+    id: '8',
     name: 'Мансур Нурадиев',
     role: 'Project Manager',
     image: '/team/mansur_nuradiev.jpg',
-  }
+  },
+  
 ];
 
