@@ -21,7 +21,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: '4',
-    name: 'Хамзан Кадиев',
+    name: 'Хамзат Кадиев',
     role: 'Frontend',
     image: '/team/khamzat.jpg',
   },
