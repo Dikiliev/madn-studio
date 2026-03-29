@@ -17,6 +17,7 @@ export interface Project {
   category: string;
   imageUrl: string;
   year: string;
+  bannerUrl?: string; // Широкий красивый баннер для детализации проекта
   // New fields for detailed view
   description?: string;
   fullDescription?: string;

@@ -14,61 +14,49 @@ export const TEAM_MEMBERS: TeamMember[] = [
     image: '/team/ramzan.jpg',
   },
   {
-    id: '8',
-    name: 'Мансур Нурадиев',
-    role: 'UI/UX Designer',
-    image: '/team/mansur_nuradiev.jpg',
+    id: '3',
+    name: 'Росул Уматгериев',
+    role: 'Backend & Mobile',
+    image: '/team/rosul.jpg',
   },
+  {
+    id: '4',
+    name: 'Хамзат Кадиев',
+    role: 'Frontend',
+    image: '/team/khamzat.jpg',
+  },
+  {
+    id: '5',
+    name: 'Магомед Абдулаев',
+    role: 'Graphic/Brand Designer',
+    image: '/team/magomed_abdulaev.png',
+  },
+
   {
     id: '6',
     name: 'Джамбулат Солтамурадов',
-    role: 'Python, Чатботы',
+    role: 'Python, FastAPI',
     image: '/team/djambulat.jpeg',
   },
-  // {
-  //   id: '3',
-  //   name: 'Росул Уматгериев',
-  //   role: 'Backend & Mobile',
-  //   image: '/team/rosul.jpg',
-  // },
-  // {
-  //   id: '4',
-  //   name: 'Хамзат Кадиев',
-  //   role: 'Frontend',
-  //   image: '/team/khamzat.jpg',
-  // },
-  // {
-  //   id: '5',
-  //   name: 'Магомед Абдулаев',
-  //   role: 'Graphic/Brand Designer',
-  //   image: '/team/magomed_abdulaev.png',
-  // },
+  {
+    id: '7',
+    name: 'Беслан Алаудинов',
+    role: 'UI/UX Designer',
+    image: '/team/beslan.jpg',
+  },
 
-  // {
-  //   id: '6',
-  //   name: 'Джамбулат Солтамурадов',
-  //   role: 'Python, FastAPI',
-  //   image: '/team/djambulat.jpeg',
-  // },
-  // {
-  //   id: '7',
-  //   name: 'Беслан Алаудинов',
-  //   role: 'UI/UX Designer',
-  //   image: '/team/beslan.jpg',
-  // },
-
-  // {
-  //   id: '8',
-  //   name: 'Мансур Нурадиев',
-  //   role: 'Project Manager',
-  //   image: '/team/mansur_nuradiev.jpg',
-  // },
-  // {
-  //   id: '9',
-  //   name: 'Ахмад Алимхаджиев',
-  //   role: 'Analyst',
-  //   image: '/team/ahmad.jpg',
-  // },
+  {
+    id: '8',
+    name: 'Мансур Нурадиев',
+    role: 'Project Manager',
+    image: '/team/mansur_nuradiev.jpg',
+  },
+  {
+    id: '9',
+    name: 'Ахмад Алимхаджиев',
+    role: 'Analyst',
+    image: '/team/ahmad.jpg',
+  },
   
 ];
 

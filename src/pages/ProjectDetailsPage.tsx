@@ -14,7 +14,7 @@ const ProjectDetailsPage: React.FC = () => {
   const [isClosing, setIsClosing] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [isSliding, setIsSliding] = useState(false);
-  
+
   const project = PROJECTS.find(p => p.id === projectId);
 
   // Генерируем массив изображений: если есть images, используем их, иначе создаем из imageUrl
@@ -119,58 +119,80 @@ const ProjectDetailsPage: React.FC = () => {
   return (
     <div className="pt-32 pb-20 min-h-screen bg-madn-light dark:bg-[#030303] relative transition-colors duration-500">
       <div className="container mx-auto px-6 relative z-10">
-        
+
         {/* Navigation */}
-        <button 
-          onClick={() => navigate('/work')} 
+        <button
+          onClick={() => navigate('/work')}
           className="flex items-center text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors group mb-8"
         >
           <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
           Назад к проектам
         </button>
 
-        {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 mb-20 items-end">
-          <div>
+        {/* Unified Hero Section */}
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-12 lg:gap-16 lg:items-center mb-32 mt-4">
+
+          {/* Left Column: Text & Meta */}
+          <div className="w-full lg:col-span-5 flex flex-col justify-center relative z-10">
             <div className="flex items-center gap-3 mb-6">
-               <span className="px-3 py-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded text-xs uppercase tracking-wider text-madn-accent font-mono">{project.category}</span>
-               <span className="text-slate-600 dark:text-gray-600 font-mono text-xs">{project.year}</span>
+              <span className="px-3 py-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded text-xs uppercase tracking-wider text-madn-accent font-mono">{project.category}</span>
+              <span className="text-slate-500 dark:text-gray-500 font-mono text-xs">{project.year}</span>
             </div>
-            <h1 className="text-5xl md:text-8xl font-display font-bold mb-8 text-slate-900 dark:text-white transition-colors">
+
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 text-slate-900 dark:text-white leading-[1.1] tracking-tight transition-colors">
               {project.title}
             </h1>
-            <p className="text-xl md:text-2xl text-slate-600 dark:text-gray-300 font-light leading-relaxed mb-8 transition-colors">
+
+            <p className="text-xl md:text-2xl text-slate-600 dark:text-gray-400 font-light leading-relaxed mb-10 transition-colors">
               {project.description || 'Инновационное цифровое решение для бизнеса.'}
             </p>
+
+            <div className="bg-white/50 dark:bg-zinc-900/40 border border-slate-200 dark:border-white/5 rounded-2xl p-6 md:p-8 backdrop-blur-sm shadow-xl dark:shadow-none mb-10 transition-colors">
+              <div className="grid grid-cols-2 gap-6 mb-2">
+                <div>
+                  <h3 className="text-[10px] font-mono text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2">Клиент</h3>
+                  <p className="text-slate-900 dark:text-white text-base md:text-lg font-display">{project.client || 'NDA'}</p>
+                </div>
+                <div>
+                  <h3 className="text-[10px] font-mono text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-2">Услуга</h3>
+                  <p className="text-slate-900 dark:text-white text-base md:text-lg font-display">{project.category}</p>
+                </div>
+              </div>
+              <hr className="my-6 border-slate-100 dark:border-white/5" />
+              <div>
+                <h3 className="text-[10px] font-mono text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-3">Стек технологий</h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.stack?.map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-white dark:bg-black rounded-full border border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-gray-400 shadow-sm dark:shadow-none">
+                      {tech}
+                    </span>
+                  )) || <span className="text-gray-500 text-sm">Не указан</span>}
+                </div>
+              </div>
+            </div>
+
             {project.link && (
-               <a href={project.link} target="_blank" rel="noopener noreferrer">
-                 <Button variant="glow" icon className="px-8">Перейти на сайт</Button>
-               </a>
+              <div>
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-block w-full sm:w-auto">
+                  <Button variant="glow" icon className="w-full sm:w-auto px-10 py-4 text-lg justify-center shadow-2xl shadow-madn-accent/20">Перейти на сайт</Button>
+                </a>
+              </div>
             )}
           </div>
-          
-          <div className="bg-white dark:bg-zinc-900/30 border border-slate-200 dark:border-white/5 rounded-2xl p-8 backdrop-blur-sm shadow-xl dark:shadow-none transition-colors">
-             <div className="grid grid-cols-2 gap-8">
-                <div>
-                   <h3 className="text-xs font-mono text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-3">Клиент</h3>
-                   <p className="text-slate-900 dark:text-white text-lg font-display">{project.client || 'NDA'}</p>
-                </div>
-                <div>
-                   <h3 className="text-xs font-mono text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-3">Услуга</h3>
-                   <p className="text-slate-900 dark:text-white text-lg font-display">{project.category}</p>
-                </div>
-             </div>
-             <hr className="my-6 border-slate-200 dark:border-white/10" />
-             <div>
-                <h3 className="text-xs font-mono text-slate-500 dark:text-gray-500 uppercase tracking-widest mb-3">Стек технологий</h3>
-                <div className="flex flex-wrap gap-2">
-                   {project.stack?.map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-slate-100 dark:bg-black rounded-full border border-slate-200 dark:border-white/10 text-xs text-slate-600 dark:text-gray-400">
-                        {tech}
-                      </span>
-                   )) || <span className="text-gray-500">Не указан</span>}
-                </div>
-             </div>
+
+          {/* Right Column: Hero Banner/Image */}
+          <div className="w-full lg:col-span-7 relative group perspective-1000">
+            {/* Soft shadow/glow behind */}
+            <div className="absolute -inset-4 bg-slate-200/50 dark:bg-madn-accent/20 blur-3xl rounded-[3rem] opacity-30 group-hover:opacity-60 transition-opacity duration-700 -z-10"></div>
+
+            <div className={`w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl relative border border-slate-200 dark:border-white/10 ${project.bannerUrl ? 'aspect-square' : 'aspect-[4/3]'} bg-slate-200 dark:bg-zinc-900 transform transition-transform duration-700 hover:scale-[1.02] hover:rotate-y-[-2deg]`}>
+              <img
+                src={project.bannerUrl || project.imageUrl}
+                alt={`${project.title} Cover`}
+                className="relative z-10 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-transparent pointer-events-none z-20 transition-opacity duration-500 group-hover:opacity-40"></div>
+            </div>
           </div>
         </div>
 
@@ -183,20 +205,20 @@ const ProjectDetailsPage: React.FC = () => {
               <span>Нажмите на изображение для полноэкранного просмотра</span>
             </div>
           )}
-          
+
           {hasMultipleImages ? (
             // Галерея с несколькими изображениями
             <div className="space-y-12">
               {projectImages.map((image, index) => (
                 <div key={index} className="group relative">
-                  <div 
+                  <div
                     className="w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-200 dark:bg-zinc-900 shadow-lg dark:shadow-none cursor-pointer transition-all duration-300 hover:shadow-2xl md:hover:scale-[1.01] aspect-[16/10] md:aspect-[16/9] relative"
                     onClick={() => handleOpenLightbox(index)}
                   >
-                    <img 
-                      src={image.url} 
-                      alt={`${project.title} - Изображение ${index + 1}`} 
-                      className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105" 
+                    <img
+                      src={image.url}
+                      alt={`${project.title} - Изображение ${index + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105"
                       loading="lazy"
                     />
                     {/* Overlay hint */}
@@ -218,11 +240,11 @@ const ProjectDetailsPage: React.FC = () => {
             // Одно изображение
             <div className="relative group">
               <div className="w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-slate-200 dark:bg-zinc-900 shadow-lg dark:shadow-none cursor-pointer transition-all duration-300 hover:shadow-2xl md:hover:scale-[1.01] aspect-[16/10] md:aspect-[16/9]"
-                   onClick={() => handleOpenLightbox(0)}>
-                <img 
-                  src={projectImages[0]?.url || project.imageUrl} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105" 
+                onClick={() => handleOpenLightbox(0)}>
+                <img
+                  src={projectImages[0]?.url || project.imageUrl}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-500 md:group-hover:scale-105"
                   loading="lazy"
                 />
                 {/* Overlay hint */}
@@ -242,7 +264,7 @@ const ProjectDetailsPage: React.FC = () => {
 
         {/* Lightbox - рендерится через Portal в body */}
         {selectedImageIndex !== null && createPortal(
-          <div 
+          <div
             style={{
               position: 'fixed',
               top: 0,
@@ -288,7 +310,7 @@ const ProjectDetailsPage: React.FC = () => {
             >
               <X style={{ width: '24px', height: '24px' }} />
             </button>
-            
+
             {hasMultipleImages && (
               <>
                 <button
@@ -351,7 +373,7 @@ const ProjectDetailsPage: React.FC = () => {
             )}
 
             {/* Изображение */}
-            <div 
+            <div
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -360,21 +382,21 @@ const ProjectDetailsPage: React.FC = () => {
                 maxWidth: '90vw',
                 maxHeight: '90vh',
                 opacity: isLightboxVisible && !isClosing ? 1 : 0,
-                transform: isLightboxVisible && !isClosing 
-                  ? slideDirection === 'left' 
-                    ? 'translateX(-30px) scale(0.95)' 
-                    : slideDirection === 'right' 
-                    ? 'translateX(30px) scale(0.95)' 
-                    : 'translateX(0) scale(1)'
+                transform: isLightboxVisible && !isClosing
+                  ? slideDirection === 'left'
+                    ? 'translateX(-30px) scale(0.95)'
+                    : slideDirection === 'right'
+                      ? 'translateX(30px) scale(0.95)'
+                      : 'translateX(0) scale(1)'
                   : 'scale(0.9)',
-                transition: slideDirection 
-                  ? 'all 0.2s ease-out' 
+                transition: slideDirection
+                  ? 'all 0.2s ease-out'
                   : 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img 
-                src={projectImages[selectedImageIndex].url} 
+              <img
+                src={projectImages[selectedImageIndex].url}
                 alt={`${project.title} - Изображение ${selectedImageIndex + 1}`}
                 style={{
                   maxWidth: '100%',
@@ -387,11 +409,11 @@ const ProjectDetailsPage: React.FC = () => {
                 }}
               />
               {projectImages[selectedImageIndex].description && (
-                <div style={{ 
-                  marginTop: '24px', 
-                  maxWidth: '800px', 
-                  textAlign: 'center', 
-                  color: 'white', 
+                <div style={{
+                  marginTop: '24px',
+                  maxWidth: '800px',
+                  textAlign: 'center',
+                  color: 'white',
                   padding: '0 16px',
                   opacity: isLightboxVisible && !isClosing && !slideDirection ? 1 : 0,
                   transform: isLightboxVisible && !isClosing && !slideDirection ? 'translateY(0)' : 'translateY(10px)',
@@ -436,33 +458,33 @@ const ProjectDetailsPage: React.FC = () => {
 
         {/* Challenge & Solution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
-           <div>
-              <div className="flex items-center gap-3 mb-6">
-                 <div className="p-2 bg-slate-100 dark:bg-zinc-900 rounded-lg text-madn-accent"><Layers className="w-5 h-5"/></div>
-                 <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-white">Задача</h2>
-              </div>
-              <p className="text-slate-600 dark:text-gray-400 leading-relaxed text-lg transition-colors">
-                {project.challenge || 'Перед нами стояла задача создать уникальный пользовательский опыт, который выделит бренд на фоне конкурентов и повысит конверсию.'}
-              </p>
-           </div>
-           <div>
-              <div className="flex items-center gap-3 mb-6">
-                 <div className="p-2 bg-slate-100 dark:bg-zinc-900 rounded-lg text-madn-accent"><CheckCircle className="w-5 h-5"/></div>
-                 <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-white">Решение</h2>
-              </div>
-              <p className="text-slate-600 dark:text-gray-400 leading-relaxed text-lg transition-colors">
-                {project.solution || 'Мы использовали современный стек технологий и продуктовый подход к дизайну, чтобы реализовать масштабируемое и быстрое решение.'}
-              </p>
-           </div>
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-slate-100 dark:bg-zinc-900 rounded-lg text-madn-accent"><Layers className="w-5 h-5" /></div>
+              <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-white">Задача</h2>
+            </div>
+            <p className="text-slate-600 dark:text-gray-400 leading-relaxed text-lg transition-colors">
+              {project.challenge || 'Перед нами стояла задача создать уникальный пользовательский опыт, который выделит бренд на фоне конкурентов и повысит конверсию.'}
+            </p>
+          </div>
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-slate-100 dark:bg-zinc-900 rounded-lg text-madn-accent"><CheckCircle className="w-5 h-5" /></div>
+              <h2 className="text-2xl font-bold font-display text-slate-900 dark:text-white">Решение</h2>
+            </div>
+            <p className="text-slate-600 dark:text-gray-400 leading-relaxed text-lg transition-colors">
+              {project.solution || 'Мы использовали современный стек технологий и продуктовый подход к дизайну, чтобы реализовать масштабируемое и быстрое решение.'}
+            </p>
+          </div>
         </div>
-        
+
         {/* Full Description */}
         <div className="max-w-4xl mx-auto border-t border-slate-200 dark:border-white/5 pt-20 transition-colors">
-           <h3 className="text-3xl font-display font-bold mb-8 text-slate-900 dark:text-white">О проекте</h3>
-           <div className="prose prose-invert prose-lg max-w-none text-slate-600 dark:text-gray-400 prose-p:text-slate-600 dark:prose-p:text-gray-400">
-              <p>{project.fullDescription || project.description}</p>
-              <p>В процессе работы мы уделили особое внимание оптимизации производительности и адаптивности интерфейса. Результатом стал продукт, который одинаково хорошо работает на любых устройствах.</p>
-           </div>
+          <h3 className="text-3xl font-display font-bold mb-8 text-slate-900 dark:text-white">О проекте</h3>
+          <div className="prose prose-invert prose-lg max-w-none text-slate-600 dark:text-gray-400 prose-p:text-slate-600 dark:prose-p:text-gray-400">
+            <p>{project.fullDescription || project.description}</p>
+            <p>В процессе работы мы уделили особое внимание оптимизации производительности и адаптивности интерфейса. Результатом стал продукт, который одинаково хорошо работает на любых устройствах.</p>
+          </div>
         </div>
 
       </div>

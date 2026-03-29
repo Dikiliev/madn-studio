@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
               <span className="text-xs font-bold tracking-[0.2em] text-slate-600 dark:text-gray-300 uppercase">Web • Apps • Bots</span>
             </div>
           </div>
-          
+
           <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-bold leading-[0.9] tracking-tighter uppercase mb-8 relative select-none">
             <span className="relative z-10 text-slate-900 dark:text-white drop-shadow-sm dark:drop-shadow-2xl block transition-colors duration-500">
               <DecryptedText text="MADN" />
@@ -47,12 +47,12 @@ const HomePage: React.FC = () => {
               <DecryptedText text="STUDIO" speed={40} />
             </span>
           </h1>
-          
+
           <p className="text-lg md:text-2xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light transition-colors duration-500">
-            Мы создаем <span className="text-slate-900 dark:text-white font-medium">сайты, приложения и ботов</span> под ключ. 
+            Мы создаем <span className="text-slate-900 dark:text-white font-medium">сайты, приложения и ботов</span> под ключ.
             Превращаем ваши идеи в работающие цифровые продукты.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
             <Button variant="secondary" onClick={() => navigate('/work')}>
               Смотреть проекты
@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
             <div className="lg:col-span-1 sticky top-32 self-start">
               <span className="text-madn-accent font-bold tracking-widest uppercase text-sm mb-4 block">Что мы создаем</span>
               <h2 className="text-5xl md:text-6xl font-display font-bold mb-8 leading-tight text-slate-900 dark:text-white transition-colors duration-500">
-                Продукты <br/> <span className="text-slate-500 dark:text-gray-600">Для Бизнеса.</span>
+                Продукты <br /> <span className="text-slate-500 dark:text-gray-600">Для Бизнеса.</span>
               </h2>
               <p className="text-slate-600 dark:text-gray-400 text-lg leading-relaxed mb-8 transition-colors duration-500">
                 От простого лендинга до сложной экосистемы. Мы берем на себя весь процесс: аналитика, дизайн, код и запуск.
@@ -101,8 +101,8 @@ const HomePage: React.FC = () => {
             </div>
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
               {SERVICES.map((service) => (
-                <div 
-                  key={service.id} 
+                <div
+                  key={service.id}
                   className="group relative p-8 rounded-[1rem] bg-white dark:bg-zinc-900/30 border border-slate-200 dark:border-white/5 hover:border-madn-accent/30 transition-all duration-500 overflow-hidden hover:shadow-xl dark:hover:bg-zinc-900/50 shadow-sm dark:shadow-none"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-madn-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -133,18 +133,18 @@ const HomePage: React.FC = () => {
           </div>
           <div className="space-y-32">
             {PROJECTS.slice(0, 4).map((project, index) => (
-              <div 
-                key={project.id} 
+              <div
+                key={project.id}
                 className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24 group`}
               >
                 <div className="w-full md:w-3/5 relative perspective-1000">
-                  <div className="relative rounded-xl overflow-hidden aspect-[16/10] border border-slate-200 dark:border-white/10 transform transition-transform duration-700 group-hover:scale-[1.01] shadow-xl dark:shadow-2xl bg-white dark:bg-zinc-900">
-                    <img 
-                      src={project.imageUrl} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover opacity-90 dark:opacity-80 group-hover:opacity-100 transition-all duration-700 md:grayscale md:group-hover:grayscale-0"
+                  <div className="relative rounded-xl overflow-hidden aspect-square border border-slate-200 dark:border-white/10 transform transition-transform duration-700 group-hover:scale-[1.01] shadow-xl dark:shadow-2xl bg-slate-200 dark:bg-zinc-900">
+                    <img
+                      src={project.bannerUrl || project.imageUrl}
+                      alt={project.title}
+                      className="relative z-10 w-full h-full object-cover opacity-95 dark:opacity-90 group-hover:opacity-100 transition-all duration-700 md:grayscale md:group-hover:grayscale-0"
                     />
-                    <div className="absolute inset-0 bg-black/10 dark:bg-black/40 group-hover:bg-transparent transition-colors duration-500"></div>
+                    <div className="absolute inset-0 bg-black/10 dark:bg-black/30 group-hover:bg-transparent transition-colors duration-500 z-20 pointer-events-none"></div>
                   </div>
                 </div>
                 <div className="w-full md:w-2/5">
@@ -157,9 +157,9 @@ const HomePage: React.FC = () => {
                     Комплексная разработка продукта: дизайн, фронтенд, бэкенд и админ-панель. Полностью готовое решение для бизнеса.
                   </p>
                   <div className="flex gap-4">
-                     <Button variant="outline" className="group-hover:bg-slate-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black dark:group-hover:border-white" onClick={() => handleProjectClick(project)}>
-                       Смотреть кейс
-                     </Button>
+                    <Button variant="outline" className="group-hover:bg-slate-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black dark:group-hover:border-white" onClick={() => handleProjectClick(project)}>
+                      Смотреть кейс
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -180,52 +180,52 @@ const HomePage: React.FC = () => {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-24">
             <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight mb-12 text-slate-900 dark:text-white transition-colors duration-500">
-              Профессиональный <br/>
+              Профессиональный <br />
               <span className="text-slate-500 dark:text-white">подход к</span> <span className="text-madn-accent">вашим задачам</span>.
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-                <div className="p-8 bg-white dark:bg-zinc-900/20 border border-slate-200 dark:border-white/5 rounded-xl backdrop-blur-sm hover:shadow-xl dark:hover:bg-zinc-900/40 transition-all duration-300">
-                  <div className="mb-4 text-madn-accent"><CheckCircle2 className="w-6 h-6"/></div>
-                  <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Качество</h4>
-                  <p className="text-slate-600 dark:text-gray-400 text-sm">Гарантируем чистый код, современный дизайн и стабильную работу продукта.</p>
-                </div>
-                <div className="p-8 bg-white dark:bg-zinc-900/20 border border-slate-200 dark:border-white/5 rounded-xl backdrop-blur-sm hover:shadow-xl dark:hover:bg-zinc-900/40 transition-all duration-300 relative top-0 md:top-8">
-                  <div className="mb-4 text-madn-accent"><Layers className="w-6 h-6"/></div>
-                  <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Экспертиза</h4>
-                  <p className="text-slate-600 dark:text-gray-400 text-sm">Опытные разработчики и дизайнеры для реализации проектов любой сложности.</p>
-                </div>
-                <div className="p-8 bg-white dark:bg-zinc-900/20 border border-slate-200 dark:border-white/5 rounded-xl backdrop-blur-sm hover:shadow-xl dark:hover:bg-zinc-900/40 transition-all duration-300">
-                  <div className="mb-4 text-madn-accent"><Bot className="w-6 h-6"/></div>
-                  <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Ответственность</h4>
-                  <p className="text-slate-600 dark:text-gray-400 text-sm">Соблюдаем сроки и договоренности. Всегда на связи и не пропадаем.</p>
-                </div>
+              <div className="p-8 bg-white dark:bg-zinc-900/20 border border-slate-200 dark:border-white/5 rounded-xl backdrop-blur-sm hover:shadow-xl dark:hover:bg-zinc-900/40 transition-all duration-300">
+                <div className="mb-4 text-madn-accent"><CheckCircle2 className="w-6 h-6" /></div>
+                <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Качество</h4>
+                <p className="text-slate-600 dark:text-gray-400 text-sm">Гарантируем чистый код, современный дизайн и стабильную работу продукта.</p>
+              </div>
+              <div className="p-8 bg-white dark:bg-zinc-900/20 border border-slate-200 dark:border-white/5 rounded-xl backdrop-blur-sm hover:shadow-xl dark:hover:bg-zinc-900/40 transition-all duration-300 relative top-0 md:top-8">
+                <div className="mb-4 text-madn-accent"><Layers className="w-6 h-6" /></div>
+                <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Экспертиза</h4>
+                <p className="text-slate-600 dark:text-gray-400 text-sm">Опытные разработчики и дизайнеры для реализации проектов любой сложности.</p>
+              </div>
+              <div className="p-8 bg-white dark:bg-zinc-900/20 border border-slate-200 dark:border-white/5 rounded-xl backdrop-blur-sm hover:shadow-xl dark:hover:bg-zinc-900/40 transition-all duration-300">
+                <div className="mb-4 text-madn-accent"><Bot className="w-6 h-6" /></div>
+                <h4 className="text-lg font-bold mb-2 text-slate-900 dark:text-white">Ответственность</h4>
+                <p className="text-slate-600 dark:text-gray-400 text-sm">Соблюдаем сроки и договоренности. Всегда на связи и не пропадаем.</p>
+              </div>
             </div>
           </div>
 
           <div className="border-t border-slate-200 dark:border-white/5 pt-24 transition-colors duration-500">
             <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
-                <div>
-                  <span className="text-madn-accent font-mono text-xs font-bold tracking-widest uppercase mb-4 block">Команда</span>
-                  <h3 className="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">Люди за кодом</h3>
-                </div>
-                <Button variant="outline" icon onClick={() => navigate('/team')}>Вся команда</Button>
+              <div>
+                <span className="text-madn-accent font-mono text-xs font-bold tracking-widest uppercase mb-4 block">Команда</span>
+                <h3 className="text-4xl md:text-5xl font-display font-bold text-slate-900 dark:text-white">Люди за кодом</h3>
+              </div>
+              <Button variant="outline" icon onClick={() => navigate('/team')}>Вся команда</Button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {TEAM_MEMBERS.slice(0, 4).map((member) => (
                 <div key={member.id} className="group relative cursor-pointer" onClick={() => navigate('/team')}>
-                    <div className="aspect-[3/4] overflow-hidden rounded-xl bg-slate-200 dark:bg-zinc-900 mb-6 md:grayscale md:group-hover:grayscale-0 transition-all duration-700 ease-out">
-                      <img 
-                        src={member.image} 
-                        alt={member.name} 
-                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1 group-hover:text-madn-accent transition-colors">{member.name}</h4>
-                      <p className="text-sm font-mono text-slate-500 dark:text-gray-500 uppercase tracking-wider">{member.role}</p>
-                    </div>
+                  <div className="aspect-[3/4] overflow-hidden rounded-xl bg-slate-200 dark:bg-zinc-900 mb-6 md:grayscale md:group-hover:grayscale-0 transition-all duration-700 ease-out">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1 group-hover:text-madn-accent transition-colors">{member.name}</h4>
+                    <p className="text-sm font-mono text-slate-500 dark:text-gray-500 uppercase tracking-wider">{member.role}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -236,11 +236,11 @@ const HomePage: React.FC = () => {
       {/* Call to Action Block */}
       <section className="py-24 bg-slate-50 dark:bg-[#030303] relative border-t border-slate-200 dark:border-white/5 transition-colors duration-500">
         <div className="container mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 text-slate-900 dark:text-white">Готовы начать?</h2>
-            <p className="text-slate-600 dark:text-gray-400 max-w-xl mx-auto mb-10 text-lg">
-              Мы всегда рады новым вызовам. Свяжитесь с нами, чтобы обсудить ваш будущий проект.
-            </p>
-            <Button variant="secondary" onClick={() => navigate('/contact')}>Связаться с нами</Button>
+          <h2 className="text-4xl md:text-6xl font-display font-bold mb-6 text-slate-900 dark:text-white">Готовы начать?</h2>
+          <p className="text-slate-600 dark:text-gray-400 max-w-xl mx-auto mb-10 text-lg">
+            Мы всегда рады новым вызовам. Свяжитесь с нами, чтобы обсудить ваш будущий проект.
+          </p>
+          <Button variant="secondary" onClick={() => navigate('/contact')}>Связаться с нами</Button>
         </div>
       </section>
     </main>
