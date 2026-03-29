@@ -25,14 +25,9 @@ export const CONTACT_INFO: ContactInfo = {
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    name: 'Instagram',
-    icon: 'Instagram',
-    href: '#'
-  },
-  {
     name: 'Github',
-    icon: 'Github',                       
-    href: 'https://github.com/madn-studio'
+    icon: 'Github',
+    href: 'https://github.com/madn-studio/.github'
   },
   {
     name: 'Telegram',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Instagram, Github, Send } from 'lucide-react';
+import { Github, Send } from 'lucide-react';
 import { COMPANY_INFO, SOCIAL_LINKS } from '@config';
 
 interface FooterProps {
@@ -9,10 +9,9 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const navigate = useNavigate();
-  
+
   // Маппинг иконок
   const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-    Instagram,
     Github,
     Send
   };
@@ -24,7 +23,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     <footer className="bg-[#020202] border-t border-white/5 pt-32 pb-10 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-madn-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
-      
+
       {/* Huge Background Text */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden pointer-events-none select-none opacity-[0.02]">
         <h1 className="text-[25vw] font-black font-display leading-[0.75] text-white text-center tracking-tighter transform translate-y-[20%]">
@@ -34,7 +33,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
-          
+
           {/* Brand Column */}
           <div className="md:col-span-5 flex flex-col justify-between">
             <div>
@@ -45,14 +44,14 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 {COMPANY_INFO.description}
               </p>
             </div>
-            
+
             <div className="flex gap-4">
               {footerSocialLinks.map((social, idx) => {
                 const IconComponent = iconMap[social.icon];
                 return (
-                  <a 
-                    key={idx} 
-                    href={social.href} 
+                  <a
+                    key={idx}
+                    href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-12 h-12 rounded-full bg-zinc-900/50 border border-white/5 flex items-center justify-center text-gray-400 hover:bg-white hover:text-black hover:scale-110 hover:border-white transition-all duration-300 group"
@@ -63,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               })}
             </div>
           </div>
-          
+
           {/* Spacer */}
           <div className="hidden md:block md:col-span-3"></div>
 
@@ -112,17 +111,17 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-4">
               <li>
                 <Link to="/privacy" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300 text-left">
-                   <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Политика<br/>конфиденциальности</span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Политика<br />конфиденциальности</span>
                 </Link>
               </li>
               <li>
                 <Link to="/terms" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
-                   <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Условия использования</span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Условия использования</span>
                 </Link>
               </li>
               <li>
                 <Link to="/cookies" className="group flex items-center text-gray-400 hover:text-madn-accent transition-colors duration-300">
-                   <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Cookie Policy</span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-300 inline-block">Cookie Policy</span>
                 </Link>
               </li>
             </ul>
@@ -133,8 +132,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-600 font-mono">
           <p>{COMPANY_INFO.copyright}</p>
           <div className="flex items-center gap-6 mt-4 md:mt-0">
-             <Link to="/privacy" className="hover:text-zinc-400 cursor-pointer transition-colors">Privacy</Link>
-             <Link to="/terms" className="hover:text-zinc-400 cursor-pointer transition-colors">Terms</Link>
+            <Link to="/privacy" className="hover:text-zinc-400 cursor-pointer transition-colors">Privacy</Link>
+            <Link to="/terms" className="hover:text-zinc-400 cursor-pointer transition-colors">Terms</Link>
           </div>
         </div>
       </div>
