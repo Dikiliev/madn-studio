@@ -40,6 +40,6 @@ export const COMPANY_INFO: CompanyInfo = {
   name: 'MADN',
   description: 'Студия цифрового креатива. Мы объединяем эстетику и технологии, чтобы создавать продукты, которые запоминают.',
   location: 'Grozny / Global',
-  copyright: `© ${new Date().getFullYear()} MadN Studio. Moscow / Global.`
+  copyright: `© ${new Date().getFullYear()} MadN Studio. Grozny / Global.`
 };
 
